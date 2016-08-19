@@ -1,8 +1,8 @@
-FROM debian:wheezy
+FROM debian:jessie
 
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV DISTRIBUTION_NAME wheezy
+ENV DISTRIBUTION_NAME jessie
 
 RUN apt-get update \
     && apt-get upgrade -y \
