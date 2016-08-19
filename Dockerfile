@@ -2,7 +2,7 @@ FROM debian:wheezy
 
 
 ENV DEBIAN_FRONTEND noninteractive
-ENV DISTRIBUTION_NAME jessie
+ENV DISTRIBUTION_NAME wheezy
 
 RUN apt-get update \
     && apt-get upgrade -y \
