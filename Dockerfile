@@ -1,7 +1,8 @@
-FROM debian:jessie
+FROM debian:wheezy
 
 
 ENV DEBIAN_FRONTEND noninteractive
+ENV DISTRIBUTION_NAME wheezy
 
 RUN apt-get update \
     && apt-get upgrade -y \
@@ -39,7 +40,7 @@ RUN apt-get update \
     libssh2-php \
     mysql-client \
     cron \
-    && echo deb http://nginx.org/packages/debian/ jessie nginx | tee /etc/apt/sources.list.d/nginx.list \
+    && echo deb http://nginx.org/packages/debian/ $DISTRIBUTION_NAME nginx | tee /etc/apt/sources.list.d/nginx.list \
     && cd /tmp \
     && wget http://nginx.org/keys/nginx_signing.key \
     && apt-key add nginx_signing.key \
