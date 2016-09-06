@@ -30,8 +30,15 @@ ADD /etc/supervisor/supervisord.conf /etc/supervisor/supervisord.conf
 RUN apt-get update \
     && apt-get -y upgrade \
     && apt-get install -y \
+    ${PHP_VERSION}-common \
     ${PHP_VERSION}-fpm \
     ${PHP_VERSION}-mysql \
+    ${PHP_VERSION}-intl \
+    ${PHP_VERSION}-xsl \
+    ${PHP_VERSION}-mbstring \
+    ${PHP_VERSION}-zip \
+    ${PHP_VERSION}-bcmath \
+    ${PHP_VERSION}-iconv \
     ${PHP_VERSION}-curl \
     ${PHP_VERSION}-gd \
     ${PHP_VERSION}-mcrypt \
