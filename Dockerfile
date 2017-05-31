@@ -14,9 +14,10 @@ ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 
-RUN localedef -c -f UTF-8 -i ${BUILD_LOCALE} ${LANG} \
-    && locale-gen en ${BUILD_LOCALE} ${LANG} \
-    && dpkg-reconfigure locales
+# @TODO debug it later
+#RUN localedef -c -f UTF-8 -i ${BUILD_LOCALE} ${LANG} \
+#    && locale-gen en ${BUILD_LOCALE} ${LANG} \
+#    && dpkg-reconfigure locales
 
 # Install tools
 RUN apt-get -qy update --fix-missing \
