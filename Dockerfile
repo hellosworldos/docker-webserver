@@ -9,14 +9,14 @@ ENV PHP_VERSION 7.0
 ENV COMPOSER_ASSET_PLUGIN_VER 1.2.2
 ENV UPLOAD_LIMIT 256
 ENV NODEJS_VERSION 6.x
-
-RUN localedef -c -f UTF-8 -i en_US en_US.UTF-8 \
-    && locale-gen en en_US en_US.UTF-8 \
-    && dpkg-reconfigure locales
-
+ENV BUILD_LOCALE en_US
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
+
+RUN localedef -c -f UTF-8 -i ${BUILD_LOCALE} ${LANG} \
+    && locale-gen en ${BUILD_LOCALE} ${LANG} \
+    && dpkg-reconfigure locales
 
 # Install tools
 RUN apt-get -qy update --fix-missing \
