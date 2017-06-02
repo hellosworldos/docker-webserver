@@ -127,10 +127,10 @@ ADD etc/php/fpm/conf.d/20-widgento-webserver.conf /etc/php/$PHP_VERSION/fpm/conf
 ADD etc/php/cli/conf.d/20-widgento-webserver.conf /etc/php/$PHP_VERSION/cli/conf.d/20-widgento-webserver.conf
 
 RUN rm -rf /etc/nginx/conf.d/* \
-    && envsubst '${PHP_VERSION}' < /etc/php/$PHP_VERSION/fpm/conf.d/20-widgento-webserver.conf \
-    && envsubst '${PHP_VERSION}' < /etc/php/$PHP_VERSION/fpm/php-fpm.conf \
-    && envsubst '${PHP_VERSION}' < /etc/php/$PHP_VERSION/cli/conf.d/20-widgento-webserver.conf \
-    && envsubst '${PHP_VERSION}' < /etc/supervisor/conf.d/nginx.conf
+    && envsubst '${PHP_VERSION}' < /etc/php/$PHP_VERSION/cli/conf.d/20-widgento-webserver.conf > /etc/php/$PHP_VERSION/cli/conf.d/20-widgento-webserver.conf \
+    && envsubst '${PHP_VERSION}' < /etc/php/$PHP_VERSION/fpm/conf.d/20-widgento-webserver.conf > /etc/php/$PHP_VERSION/fpm/conf.d/20-widgento-webserver.conf \
+    && envsubst '${PHP_VERSION}' < /etc/php/$PHP_VERSION/fpm/php-fpm.conf > /etc/php/$PHP_VERSION/fpm/php-fpm.conf \
+    && envsubst '${PHP_VERSION}' < /etc/supervisor/conf.d/nginx.conf > /etc/supervisor/conf.d/nginx.conf
 
 EXPOSE 80 443
 
