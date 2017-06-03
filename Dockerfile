@@ -102,12 +102,6 @@ RUN curl -sS https://getcomposer.org/installer | php \
     # Install required composer-plugins
     && runuser -s /bin/sh -c 'composer global require fxp/composer-asset-plugin:${COMPOSER_ASSET_PLUGIN_VER}' www-data
 
-# Install node.js
-RUN curl -sL https://deb.nodesource.com/setup_${NODEJS_VERSION} | bash - \
-    && apt-get -y update --fix-missing \
-    && apt-get -y upgrade \
-    && apt-get install -y nodejs
-
 # Install nginx
 RUN echo deb http://nginx.org/packages/${DISTRIBUTION_VENDOR}/ ${DISTRIBUTION_NAME} nginx | tee /etc/apt/sources.list.d/nginx.list \
     && cd /tmp \
@@ -127,6 +121,7 @@ ADD etc/php/fpm/conf.d/20-widgento-webserver.conf /etc/php/$PHP_VERSION/fpm/conf
 ADD etc/php/cli/conf.d/20-widgento-webserver.conf /etc/php/$PHP_VERSION/cli/conf.d/20-widgento-webserver.conf
 
 RUN rm -rf /etc/nginx/conf.d/* \
+    && envsubst '${UPLOAD_LIMIT}' < /etc/nginx/nginx.conf > /etc/nginx/nginx.conf \
     && envsubst '${PHP_VERSION}' < /etc/php/$PHP_VERSION/cli/conf.d/20-widgento-webserver.conf > /etc/php/$PHP_VERSION/cli/conf.d/20-widgento-webserver.conf \
     && envsubst '${PHP_VERSION}' < /etc/php/$PHP_VERSION/fpm/conf.d/20-widgento-webserver.conf > /etc/php/$PHP_VERSION/fpm/conf.d/20-widgento-webserver.conf \
     && envsubst '${PHP_VERSION}' < /etc/php/$PHP_VERSION/fpm/php-fpm.conf > /etc/php/$PHP_VERSION/fpm/php-fpm.conf \
