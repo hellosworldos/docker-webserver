@@ -113,19 +113,20 @@ RUN echo deb http://nginx.org/packages/${DISTRIBUTION_VENDOR}/ ${DISTRIBUTION_NA
 
 VOLUME ["/var/log/nginx", "/var/log/php-fpm"]
 
-ADD etc/php/fpm/php-fpm.conf /etc/php/$PHP_VERSION/fpm/php-fpm.conf
-ADD etc/php/fpm/pool.d/www.conf /etc/php/$PHP_VERSION/fpm/pool.d/www.conf
+ADD etc/php/fpm/php-fpm.conf /etc/php/${PHP_VERSION}/fpm/php-fpm.conf
+ADD etc/php/fpm/pool.d/www.conf /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf
 ADD etc/nginx/nginx.conf /etc/nginx/nginx.conf
 ADD etc/supervisor/conf.d/nginx.conf /etc/supervisor/conf.d/nginx.conf
-ADD etc/php/fpm/conf.d/20-widgento-webserver.conf /etc/php/$PHP_VERSION/fpm/conf.d/20-widgento-webserver.conf
-ADD etc/php/cli/conf.d/20-widgento-webserver.conf /etc/php/$PHP_VERSION/cli/conf.d/20-widgento-webserver.conf
+ADD etc/php/fpm/conf.d/20-widgento-webserver.conf /etc/php/${PHP_VERSION}/fpm/conf.d/20-widgento-webserver.conf
+ADD etc/php/cli/conf.d/20-widgento-webserver.conf /etc/php/${PHP_VERSION}/cli/conf.d/20-widgento-webserver.conf
 
 RUN rm -rf /etc/nginx/conf.d/* \
     && envsubst '${UPLOAD_LIMIT}' < /etc/nginx/nginx.conf > /etc/nginx/nginx.conf \
-    && envsubst '${PHP_VERSION}' < /etc/php/$PHP_VERSION/cli/conf.d/20-widgento-webserver.conf > /etc/php/$PHP_VERSION/cli/conf.d/20-widgento-webserver.conf \
-    && envsubst '${PHP_VERSION}' < /etc/php/$PHP_VERSION/fpm/conf.d/20-widgento-webserver.conf > /etc/php/$PHP_VERSION/fpm/conf.d/20-widgento-webserver.conf \
-    && envsubst '${PHP_VERSION}' < /etc/php/$PHP_VERSION/fpm/php-fpm.conf > /etc/php/$PHP_VERSION/fpm/php-fpm.conf \
-    && envsubst '${PHP_VERSION}' < /etc/supervisor/conf.d/nginx.conf > /etc/supervisor/conf.d/nginx.conf
+    && envsubst '${PHP_VERSION}' < /etc/php/${PHP_VERSION}/cli/conf.d/20-widgento-webserver.conf > /etc/php/${PHP_VERSION}/cli/conf.d/20-widgento-webserver.conf \
+    && envsubst '${PHP_VERSION}' < /etc/php/${PHP_VERSION}/fpm/conf.d/20-widgento-webserver.conf > /etc/php/${PHP_VERSION}/fpm/conf.d/20-widgento-webserver.conf \
+    && envsubst '${PHP_VERSION}' < /etc/php/${PHP_VERSION}/fpm/php-fpm.conf > /etc/php/${PHP_VERSION}/fpm/php-fpm.conf \
+    && envsubst '${PHP_VERSION}' < /etc/supervisor/conf.d/nginx.conf > /etc/supervisor/conf.d/nginx.conf \
+    && sed -i -e "s/;date.timezone\s=/date.timezone = UTC/g" /etc/php/${PHP_VERSION}/cli/php.ini
 
 EXPOSE 80 443
 
