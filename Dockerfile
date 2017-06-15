@@ -86,6 +86,7 @@ RUN apt-get -y update --fix-missing \
     php-redis \
     php-tidy \
     php-memcache \
+    php-xdebug \
     php-ssh2
 
 # Install composer
@@ -118,7 +119,9 @@ ADD etc/php/fpm/pool.d/www.conf /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf
 ADD etc/nginx/nginx.conf /etc/nginx/nginx.conf
 ADD etc/supervisor/conf.d/nginx.conf /etc/supervisor/conf.d/nginx.conf
 ADD etc/php/fpm/conf.d/20-widgento-webserver.conf /etc/php/${PHP_VERSION}/fpm/conf.d/20-widgento-webserver.conf
+ADD etc/php/fpm/conf.d/20-xdebug.conf /etc/php/${PHP_VERSION}/fpm/conf.d/20-xdebug.conf
 ADD etc/php/cli/conf.d/20-widgento-webserver.conf /etc/php/${PHP_VERSION}/cli/conf.d/20-widgento-webserver.conf
+ADD etc/php/cli/conf.d/20-xdebug.conf /etc/php/${PHP_VERSION}/cli/conf.d/20-xdebug.conf
 
 RUN rm -rf /etc/nginx/conf.d/* \
     && envsubst '${UPLOAD_LIMIT}' < /etc/nginx/nginx.conf > /etc/nginx/nginx.conf \
