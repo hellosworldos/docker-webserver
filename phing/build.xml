@@ -30,6 +30,9 @@
                 <exec command="/sbin/ip route | awk '/default/ { print $3 }'" outputProperty="host.ip" checkreturn="true" />
                 <copy file="/etc/php/${php.version}/fpm/conf.d/20-xdebug.ini.dist" tofile="/etc/php/${php.version}/fpm/conf.d/20-xdebug.ini" overwrite="true" />
                 <append destFile="/etc/php/${php.version}/fpm/conf.d/20-xdebug.ini" text="xdebug.remote_host=${host.ip}" />
+
+                <copy file="/etc/php/${php.version}/cli/conf.d/20-xdebug.ini.dist" tofile="/etc/php/${php.version}/cli/conf.d/20-xdebug.ini" overwrite="true" />
+                <append destFile="/etc/php/${php.version}/cli/conf.d/20-xdebug.ini" text="xdebug.remote_host=${host.ip}" />
             </then>
         </if>
     </target>
