@@ -28,7 +28,7 @@
             <equals arg1="${app.debug}" arg2="1"/>
             <then>
                 <exec command="/sbin/ip route | awk '/default/ { print $3 }'" outputProperty="host.ip" checkreturn="true" />
-                <copy file="/etc/php/${php.version}/fpm/conf.d/20-xdebug.ini.dist" tofile="/etc/php/${php.version}/fpm/conf.d/20-xdebug.ini" />
+                <copy file="/etc/php/${php.version}/fpm/conf.d/20-xdebug.ini.dist" tofile="/etc/php/${php.version}/fpm/conf.d/20-xdebug.ini" overwrite="true" />
                 <append destFile="/etc/php/${php.version}/fpm/conf.d/20-xdebug.ini" text="xdebug.remote_host=${host.ip}" />
             </then>
         </if>

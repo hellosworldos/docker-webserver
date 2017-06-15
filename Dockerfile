@@ -87,7 +87,9 @@ RUN apt-get -y update --fix-missing \
     php-tidy \
     php-memcache \
     php-xdebug \
-    php-ssh2
+    php-ssh2 \
+    && rm -rf /etc/php/${PHP_VERSION}/fpm/conf.d/20-xdebug.ini \
+    && rm -rf /etc/php/${PHP_VERSION}/cli/conf.d/20-xdebug.ini
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php \
