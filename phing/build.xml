@@ -10,7 +10,7 @@
 
     <target name="map-dev-user">
         <if>
-            <equals arg1="${app.debug}" arg2="yes"></equals>
+            <equals arg1="${app.debug}" arg2="1"></equals>
             <then>
                 <exec command="id -u ${app.user}" outputProperty="app.user.old_user_id" />
                 <exec command="id -g ${app.group}" outputProperty="app.user.old_group_id" />
@@ -25,7 +25,7 @@
 
     <target name="xdebug-configure">
         <if>
-            <equals arg1="${app.debug}" arg2="yes"/>
+            <equals arg1="${app.debug}" arg2="1"/>
             <then>
                 <exec command="/sbin/ip route | awk '/default/ { print $3 }'" outputProperty="host.ip" checkreturn="true" />
                 <copy file="/etc/php/${php.version}/fpm/conf.d/20-xdebug.ini.dist" tofile="/etc/php/${php.version}/fpm/conf.d/20-xdebug.ini" />
