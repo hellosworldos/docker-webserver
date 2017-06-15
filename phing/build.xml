@@ -2,7 +2,7 @@
 <project name="hellosworldos_webserver" default="xdebug-configure">
     <autoloader autoloaderpath="vendor/autoload.php" />
 
-    <property name="debug" value="no" />
+    <property name="app.debug" value="no" />
     <property name="dev.group_id" value="" />
     <property name="dev.user_id" value="" />
     <property name="app.user" value="www-data" />
@@ -10,7 +10,7 @@
 
     <target name="map-dev-user">
         <if>
-            <equals arg1="${debug}" arg2="yes"></equals>
+            <equals arg1="${app.debug}" arg2="yes"></equals>
             <then>
                 <exec command="id -u ${app.user}" outputProperty="app.user.old_user_id" />
                 <exec command="id -g ${app.group}" outputProperty="app.user.old_group_id" />
@@ -25,15 +25,12 @@
 
     <target name="xdebug-configure">
         <if>
-            <equals arg1="${debug}" arg2="yes"/>
+            <equals arg1="${app.debug}" arg2="yes"/>
             <then>
                 <exec command="/sbin/ip route | awk '/default/ { print $3 }'" outputProperty="host.ip" checkreturn="true" />
+                <copy file="/etc/php/${php.version}/fpm/conf.d/20-xdebug.ini.dist" tofile="/etc/php/${php.version}/fpm/conf.d/20-xdebug.ini" />
                 <append destFile="/etc/php/${php.version}/fpm/conf.d/20-xdebug.ini" text="xdebug.remote_host=${host.ip}" />
             </then>
-            <else>
-                <delete file="/etc/php/${php.version}/fpm/conf.d/20-xdebug.ini" />
-                <delete file="/etc/php/${php.version}/cli/conf.d/20-xdebug.ini" />
-            </else>
         </if>
     </target>
 </project>

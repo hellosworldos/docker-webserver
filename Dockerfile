@@ -119,9 +119,9 @@ ADD etc/php/fpm/pool.d/www.conf /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf
 ADD etc/nginx/nginx.conf /etc/nginx/nginx.conf
 ADD etc/supervisor/conf.d/nginx.conf /etc/supervisor/conf.d/nginx.conf
 ADD etc/php/fpm/conf.d/20-widgento-webserver.ini /etc/php/${PHP_VERSION}/fpm/conf.d/20-widgento-webserver.ini
-ADD etc/php/fpm/conf.d/20-xdebug.ini /etc/php/${PHP_VERSION}/fpm/conf.d/20-xdebug.ini
+ADD etc/php/fpm/conf.d/20-xdebug.ini /etc/php/${PHP_VERSION}/fpm/conf.d/20-xdebug.ini.dist
 ADD etc/php/cli/conf.d/20-widgento-webserver.ini /etc/php/${PHP_VERSION}/cli/conf.d/20-widgento-webserver.ini
-ADD etc/php/cli/conf.d/20-xdebug.ini /etc/php/${PHP_VERSION}/cli/conf.d/20-xdebug.ini
+ADD etc/php/cli/conf.d/20-xdebug.ini /etc/php/${PHP_VERSION}/cli/conf.d/20-xdebug.ini.dist
 
 RUN rm -rf /etc/nginx/conf.d/* \
     && envsubst '${UPLOAD_LIMIT}' < /etc/nginx/nginx.conf > /etc/nginx/nginx.conf \
