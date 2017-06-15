@@ -1,0 +1,16 @@
+{
+  "name": "hellosworldos/phing-webserver",
+  "type": "library",
+  "license": "MIT",
+  "description": "Web server installaction tools",
+  "authors": [
+    {
+      "name": "Yury Ksenevich",
+      "email": "yury@spadar.com"
+    }
+  ],
+  "require-dev": {
+    "phing/phing": "2.*",
+    "fxp/composer-asset-plugin": "^1.3"
+  }
+}

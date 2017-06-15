@@ -132,4 +132,10 @@ RUN rm -rf /etc/nginx/conf.d/* \
 
 EXPOSE 80 443
 
+# Initialize phing
+ADD phing /opt/phing/webserver
+
+RUN cd /opt/phing/webserver \
+    && composer update
+
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]

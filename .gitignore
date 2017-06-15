@@ -1,1 +1,4 @@
 .idea/
+/phing/bin/
+/phing/vendor/
+/phing/composer.lock
