@@ -53,7 +53,7 @@ RUN apt-get -y update --fix-missing \
     mysql-client \
     cron \
     gettext-base \
-    && apt-get clean
+    && apt-get clean -qq
 
 VOLUME ["/var/log/supervisor"]
 
@@ -89,7 +89,8 @@ RUN apt-get -y update --fix-missing \
     php-xdebug \
     php-ssh2 \
     && rm -rf /etc/php/${PHP_VERSION}/fpm/conf.d/20-xdebug.ini \
-    && rm -rf /etc/php/${PHP_VERSION}/cli/conf.d/20-xdebug.ini
+    && rm -rf /etc/php/${PHP_VERSION}/cli/conf.d/20-xdebug.ini \
+    && apt-get clean -qq
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php \
@@ -111,8 +112,8 @@ RUN echo deb http://nginx.org/packages/${DISTRIBUTION_VENDOR}/ ${DISTRIBUTION_NA
     && wget http://nginx.org/keys/nginx_signing.key \
     && apt-key add nginx_signing.key \
     && apt-get update \
-    && apt-get install -y nginx
-
+    && apt-get install -y nginx \
+    && apt-get clean -qq
 
 VOLUME ["/var/log/nginx", "/var/log/php-fpm"]
 
