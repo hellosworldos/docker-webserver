@@ -90,6 +90,7 @@ RUN apt-get -y update --fix-missing \
     php-ssh2 \
     && rm -rf /etc/php/${PHP_VERSION}/fpm/conf.d/20-xdebug.ini \
     && rm -rf /etc/php/${PHP_VERSION}/cli/conf.d/20-xdebug.ini \
+    && mkdir -p /var/log/php/xdebug \
     && apt-get clean -qq
 
 # Install composer
