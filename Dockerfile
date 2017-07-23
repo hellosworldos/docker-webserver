@@ -8,7 +8,6 @@ ENV DISTRIBUTION_NAME xenial
 ENV PHP_VERSION 7.0
 ENV COMPOSER_ASSET_PLUGIN_VER 1.2.2
 ENV UPLOAD_LIMIT 256
-ENV NODEJS_VERSION 6.x
 ENV BUILD_LOCALE en_US
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
@@ -97,8 +96,8 @@ RUN apt-get -y update --fix-missing \
 RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer.phar \
     # Create composer home dirs
-    && mkdir -p -m 0744 /opt/composer/root \
-    && mkdir -p -m 0744 /opt/composer/www-data \
+    && mkdir -p 0744 /opt/composer/root \
+    && mkdir -p 0744 /opt/composer/www-data \
     && chown www-data:www-data /opt/composer/www-data \
     # Create composer wrapper
     && echo '#!/usr/bin/env bash' >> /usr/local/bin/composer \
