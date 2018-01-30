@@ -5,18 +5,18 @@ MAINTAINER Yury Ksenevich <yury@spadar.com>
 ENV DEBIAN_FRONTEND noninteractive
 ENV DISTRIBUTION_VENDOR ubuntu
 ENV DISTRIBUTION_NAME xenial
-ENV PHP_VERSION 7.0
-ENV COMPOSER_ASSET_PLUGIN_VER 1.2.2
+ENV PHP_VERSION 7.1
+ENV COMPOSER_ASSET_PLUGIN_VER 1.4.2
 ENV UPLOAD_LIMIT 256
 ENV BUILD_LOCALE en_US
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US.UTF-8
 
-# @TODO debug it later
-#RUN localedef -c -f UTF-8 -i ${BUILD_LOCALE} ${LANG} \
-#    && locale-gen en ${BUILD_LOCALE} ${LANG} \
-#    && dpkg-reconfigure locales
+RUN apt-get -y update --fix-missing \
+    && apt-get install -y locales \
+    && localedef -c -f UTF-8 -i ${BUILD_LOCALE} ${LANG} \
+    && locale-gen ${BUILD_LOCALE} ${LANG} \
+    && dpkg-reconfigure locales
 
 # Install tools
 RUN apt-get -qy update --fix-missing \
@@ -59,34 +59,33 @@ VOLUME ["/var/log/supervisor"]
 ADD /etc/supervisor/supervisord.conf /etc/supervisor/supervisord.conf
 
 # Install php
+RUN add-apt-repository ppa:ondrej/php -y
 RUN apt-get -y update --fix-missing \
     && apt-get -y upgrade \
     && apt-get install -y --no-install-recommends \
-    php-common \
-    php-fpm \
-    php-mysql \
-    php-intl \
-    php-xsl \
-    php-mbstring \
-    php-zip \
-    php-bcmath \
-    php-iconv \
-    php-curl \
-    php-gd \
-    php-mcrypt \
-    php-fpm \
-    php-cli \
-    php-mysql \
-    php-dev \
-    php-xmlrpc \
-    php-ldap \
-    php-soap \
-    php-bz2 \
-    php-redis \
-    php-tidy \
-    php-memcache \
-    php-xdebug \
-    php-ssh2 \
+    php${PHP_VERSION}-common \
+    php${PHP_VERSION}-fpm \
+    php${PHP_VERSION}-mysql \
+    php${PHP_VERSION}-intl \
+    php${PHP_VERSION}-xsl \
+    php${PHP_VERSION}-mbstring \
+    php${PHP_VERSION}-zip \
+    php${PHP_VERSION}-bcmath \
+    php${PHP_VERSION}-iconv \
+    php${PHP_VERSION}-curl \
+    php${PHP_VERSION}-gd \
+    php${PHP_VERSION}-mcrypt \
+    php${PHP_VERSION}-cli \
+    php${PHP_VERSION}-dev \
+    php${PHP_VERSION}-xmlrpc \
+    php${PHP_VERSION}-ldap \
+    php${PHP_VERSION}-soap \
+    php${PHP_VERSION}-bz2 \
+    php${PHP_VERSION}-redis \
+    php${PHP_VERSION}-tidy \
+    php${PHP_VERSION}-memcache \
+    php${PHP_VERSION}-xdebug \
+    php${PHP_VERSION}-ssh2 \
     && rm -rf /etc/php/${PHP_VERSION}/fpm/conf.d/20-xdebug.ini \
     && rm -rf /etc/php/${PHP_VERSION}/cli/conf.d/20-xdebug.ini \
     && mkdir -p /var/log/php/xdebug \
