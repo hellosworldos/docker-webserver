@@ -106,7 +106,7 @@ RUN curl -sS https://getcomposer.org/installer | php \
     && echo 'COMPOSER_HOME=/opt/composer/$(whoami) /usr/local/bin/composer.phar $@' >> /usr/local/bin/composer \
     && chmod 0755 /usr/local/bin/composer \
     # Install required composer-plugins
-    && runuser -s /bin/sh -c 'composer global require fxp/composer-asset-plugin:${COMPOSER_ASSET_PLUGIN_VER}' www-data
+    && runuser -s /bin/sh -c "composer global require fxp/composer-asset-plugin:${COMPOSER_ASSET_PLUGIN_VER}" www-data
 
 # Install nginx
 RUN echo deb http://nginx.org/packages/${DISTRIBUTION_VENDOR}/ ${DISTRIBUTION_NAME} nginx | tee /etc/apt/sources.list.d/nginx.list \
@@ -129,11 +129,11 @@ ADD etc/php/cli/conf.d/*.ini /etc/php/${PHP_VERSION}/cli/conf.d/
 ADD etc/php/cli/conf.d/*.ini.dist /etc/php/${PHP_VERSION}/cli/conf.d/
 
 RUN rm -rf /etc/nginx/conf.d/* \
-    && envsubst '${UPLOAD_LIMIT}' < /etc/nginx/nginx.conf > /etc/nginx/nginx.conf \
-    && envsubst '${PHP_VERSION}' < /etc/php/${PHP_VERSION}/cli/conf.d/20-widgento-webserver.ini > /etc/php/${PHP_VERSION}/cli/conf.d/20-widgento-webserver.ini \
-    && envsubst '${PHP_VERSION}' < /etc/php/${PHP_VERSION}/fpm/conf.d/20-widgento-webserver.ini > /etc/php/${PHP_VERSION}/fpm/conf.d/20-widgento-webserver.ini \
-    && envsubst '${PHP_VERSION}' < /etc/php/${PHP_VERSION}/fpm/php-fpm.conf > /etc/php/${PHP_VERSION}/fpm/php-fpm.conf \
-    && envsubst '${PHP_VERSION}' < /etc/supervisor/conf.d/nginx.conf > /etc/supervisor/conf.d/nginx.conf
+    && sed -i "s/\${UPLOAD_LIMIT}/${UPLOAD_LIMIT}/g" /etc/nginx/nginx.conf > /etc/nginx/nginx.conf \
+    && sed -i "s/\${PHP_VERSION}/${PHP_VERSION}/g" /etc/php/${PHP_VERSION}/cli/conf.d/20-widgento-webserver.ini \
+    && sed -i "s/\${PHP_VERSION}/${PHP_VERSION}/g" /etc/php/${PHP_VERSION}/fpm/conf.d/20-widgento-webserver.ini \
+    && sed -i "s/\${PHP_VERSION}/${PHP_VERSION}/g" /etc/php/${PHP_VERSION}/fpm/php-fpm.conf \
+    && sed -i "s/\${PHP_VERSION}/${PHP_VERSION}/g" /etc/supervisor/conf.d/nginx.conf
 
 EXPOSE 80 443
 
