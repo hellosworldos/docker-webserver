@@ -124,7 +124,9 @@ ADD etc/php/fpm/pool.d/www.conf /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf
 ADD etc/nginx/nginx.conf /etc/nginx/nginx.conf
 ADD etc/supervisor/conf.d/nginx.conf /etc/supervisor/conf.d/nginx.conf
 ADD etc/php/fpm/conf.d/*.ini /etc/php/${PHP_VERSION}/fpm/conf.d/
+ADD etc/php/fpm/conf.d/*.ini.dist /etc/php/${PHP_VERSION}/fpm/conf.d/
 ADD etc/php/cli/conf.d/*.ini /etc/php/${PHP_VERSION}/cli/conf.d/
+ADD etc/php/cli/conf.d/*.ini.dist /etc/php/${PHP_VERSION}/cli/conf.d/
 
 RUN rm -rf /etc/nginx/conf.d/* \
     && envsubst '${UPLOAD_LIMIT}' < /etc/nginx/nginx.conf > /etc/nginx/nginx.conf \
