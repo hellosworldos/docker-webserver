@@ -5,7 +5,7 @@ MAINTAINER Yury Ksenevich <yury@spadar.com>
 ENV DEBIAN_FRONTEND noninteractive
 ENV DISTRIBUTION_VENDOR ubuntu
 ENV DISTRIBUTION_NAME xenial
-ENV PHP_VERSION 7.1
+ENV PHP_VERSION 7.2
 ENV COMPOSER_ASSET_PLUGIN_VER 1.4.2
 ENV UPLOAD_LIMIT 256
 ENV BUILD_LOCALE en_US
@@ -52,6 +52,8 @@ RUN apt-get -y update --fix-missing \
     mysql-client \
     cron \
     gettext-base \
+    libmcrypt-dev \
+    libreadline-dev \
     && apt-get clean -qq
 
 VOLUME ["/var/log/supervisor"]
@@ -63,6 +65,7 @@ RUN add-apt-repository ppa:ondrej/php -y
 RUN apt-get -y update --fix-missing \
     && apt-get -y upgrade \
     && apt-get install -y --no-install-recommends \
+    php-pear \
     php${PHP_VERSION}-common \
     php${PHP_VERSION}-fpm \
     php${PHP_VERSION}-mysql \
@@ -74,7 +77,6 @@ RUN apt-get -y update --fix-missing \
     php${PHP_VERSION}-iconv \
     php${PHP_VERSION}-curl \
     php${PHP_VERSION}-gd \
-    php${PHP_VERSION}-mcrypt \
     php${PHP_VERSION}-cli \
     php${PHP_VERSION}-dev \
     php${PHP_VERSION}-xmlrpc \
@@ -86,6 +88,7 @@ RUN apt-get -y update --fix-missing \
     php${PHP_VERSION}-memcache \
     php${PHP_VERSION}-xdebug \
     php${PHP_VERSION}-ssh2 \
+    && pecl install mcrypt-1.0.1 \
     && rm -rf /etc/php/${PHP_VERSION}/fpm/conf.d/20-xdebug.ini \
     && rm -rf /etc/php/${PHP_VERSION}/cli/conf.d/20-xdebug.ini \
     && mkdir -p /var/log/php/xdebug \
@@ -120,10 +123,8 @@ ADD etc/php/fpm/php-fpm.conf /etc/php/${PHP_VERSION}/fpm/php-fpm.conf
 ADD etc/php/fpm/pool.d/www.conf /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf
 ADD etc/nginx/nginx.conf /etc/nginx/nginx.conf
 ADD etc/supervisor/conf.d/nginx.conf /etc/supervisor/conf.d/nginx.conf
-ADD etc/php/fpm/conf.d/20-widgento-webserver.ini /etc/php/${PHP_VERSION}/fpm/conf.d/20-widgento-webserver.ini
-ADD etc/php/fpm/conf.d/20-xdebug.ini /etc/php/${PHP_VERSION}/fpm/conf.d/20-xdebug.ini.dist
-ADD etc/php/cli/conf.d/20-widgento-webserver.ini /etc/php/${PHP_VERSION}/cli/conf.d/20-widgento-webserver.ini
-ADD etc/php/cli/conf.d/20-xdebug.ini /etc/php/${PHP_VERSION}/cli/conf.d/20-xdebug.ini.dist
+ADD etc/php/fpm/conf.d/*.ini /etc/php/${PHP_VERSION}/fpm/conf.d/
+ADD etc/php/cli/conf.d/*.ini /etc/php/${PHP_VERSION}/cli/conf.d/
 
 RUN rm -rf /etc/nginx/conf.d/* \
     && envsubst '${UPLOAD_LIMIT}' < /etc/nginx/nginx.conf > /etc/nginx/nginx.conf \
