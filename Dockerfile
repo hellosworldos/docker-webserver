@@ -129,7 +129,7 @@ ADD etc/php/cli/conf.d/*.ini /etc/php/${PHP_VERSION}/cli/conf.d/
 ADD etc/php/cli/conf.d/*.ini.dist /etc/php/${PHP_VERSION}/cli/conf.d/
 
 RUN rm -rf /etc/nginx/conf.d/* \
-    && sed -i "s/\${UPLOAD_LIMIT}/${UPLOAD_LIMIT}/g" /etc/nginx/nginx.conf > /etc/nginx/nginx.conf \
+    && sed -i "s/\${UPLOAD_LIMIT}/${UPLOAD_LIMIT}/g" /etc/nginx/nginx.conf \
     && sed -i "s/\${PHP_VERSION}/${PHP_VERSION}/g" /etc/php/${PHP_VERSION}/cli/conf.d/20-widgento-webserver.ini \
     && sed -i "s/\${PHP_VERSION}/${PHP_VERSION}/g" /etc/php/${PHP_VERSION}/fpm/conf.d/20-widgento-webserver.ini \
     && sed -i "s/\${PHP_VERSION}/${PHP_VERSION}/g" /etc/php/${PHP_VERSION}/fpm/php-fpm.conf \
